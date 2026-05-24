@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api
+      - REACT_APP_SOCKET_URL=http://localhost:5000
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=example
+      - DB_NAME=project_management
+    depends_on:
+      - mysql
+
+  task_reminders:
+    build:
+      context: ./python-services/task_reminders
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - FASTAPI_ENV=production
+
+  email_notifications:
+    build:
+      context: ./python-services/email_notifications
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      - FASTAPI_ENV=production
+
+  analytics:
+    build:
+      context: ./python-services/analytics
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8000"
+    environment:
+      - FASTAPI_ENV=production
+
+  background_jobs:
+    build:
+      context: ./python-services/background_jobs
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8000"
+    environment:
+      - FASTAPI_ENV=production
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: project_management
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

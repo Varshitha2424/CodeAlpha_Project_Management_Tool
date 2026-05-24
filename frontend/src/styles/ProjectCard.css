@@ -1,0 +1,27 @@
+.project-card {
+  background-color: #ffffff;
+  border: 1px solid #bdc3c7;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.project-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.project-card h3 {
+  margin: 0 0 0.5rem;
+}
+
+.project-card p {
+  margin: 0 0 1rem;
+  color: #7f8c8d;
+}
+
+.project-status {
+  font-weight: bold;
+  color: #2c3e50;
+}
